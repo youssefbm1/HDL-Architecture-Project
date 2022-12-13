@@ -1,9 +1,11 @@
 #
 .PHONY: clean all simu_batch compile simu_gui info syn
 
-VLOG = /comelec/softs/bin/vlog
-VSIM = /comelec/softs/bin/vsim
-SYN  = /comelec/softs/bin/precision
+export PATH:=/comelec/softs/bin:$(PATH)
+
+VLOG = vlog
+VSIM = vsim
+SYN  = precision
 
 TOPDIR = $(shell pwd)
 TB_TOP = testbench_top
