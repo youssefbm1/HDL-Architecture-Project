@@ -25,7 +25,7 @@ DEP          += $(patsubst $(WSHBTBSRCDIR)/%.sv,$(WORK_DIR)/.%.compiled,${WSHBTB
 
 # Module sources
 SRCDIR    = $(TOPDIR)/wb_bram
-SRC       = $(wildcard $(SRCDIR)/*.sv)
+SRC       = $(SRCDIR)/wb_bram.sv
 DEP      += $(patsubst $(SRCDIR)/%.sv,$(WORK_DIR)/.%.compiled,${SRC})
 
 # Module testbench sources
@@ -33,10 +33,13 @@ TBDIR     = $(TOPDIR)/wb_bram_tb_src
 TBSRC     = $(wildcard $(TBDIR)/*.sv)
 DEP      += $(patsubst $(TBDIR)/%.sv,$(WORK_DIR)/.%.compiled,${TBSRC})
 
+# Auxiliary files for synthesis
+SYNDIR = $(TOPDIR)/wb_bram_syn_src
+SYNSRC = $(wildcard $(SYNDIR)/*.sv)
+
 # Repertoires et fichiers pour la synthèse
-IMPL_DIR =  $(WORK_DIR)/precision_wb_bram/impl
-AREA_FILE   = wb_bram_area.rep
-TIMING_FILE   = wb_bram_timing.rep
+AREA_FILE   = wb_bram_area.log
+TIMING_FILE   = wb_bram_timing.log
 
 
 info:
@@ -82,9 +85,7 @@ $(WORK_DIR)/.%.compiled: $(BRDGSRCDIR)/%.sv | $(WORK_DIR)/work
 syn: $(WORK_DIR)/$(AREA_FILE)
 
 $(WORK_DIR)/$(AREA_FILE): $(WSHBSRC) $(SRC) $(WORK_DIR)
-	cd $(WORK_DIR) && rm -rf precision_wb_bram &&  $(SYN) -shell -file ../precision.tcl
-	cp -f $(IMPL_DIR)/$(AREA_FILE) $(WORK_DIR)
-	cp -f $(IMPL_DIR)/$(TIMING_FILE) $(WORK_DIR)
+	cd $(WORK_DIR) && TOP_MODULE=wrapper HDL_FILES="$(SYNSRC) $(SRC) $(WSHBSRC)" make -f ../Makefile_syn pr
 
 $(WORK_DIR):
 	mkdir $(WORK_DIR)

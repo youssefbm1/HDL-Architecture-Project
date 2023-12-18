@@ -79,12 +79,17 @@ interface wshb_if #(parameter DATA_BYTES=4) (input logic clk, input logic rst) ;
 
   //////////////// TESTBENCH Masters and slaves modports /////////////
   // synthesis translate_off
+  `ifndef SYNTHESIS
 
-   // Modport for master testbench
-    modport tb_master(
-      clocking cbm,
-      task clockAlign()
-    );
+    sequence sync_posedge;
+      @(posedge clk) 1;
+    endsequence
+
+    // Clock edge alignment
+    task clockAlign();
+       wait(sync_posedge.triggered);
+    endtask
+
 
    // Clocking block for master testbench
    clocking cbm @(posedge clk);
@@ -102,14 +107,6 @@ interface wshb_if #(parameter DATA_BYTES=4) (input logic clk, input logic rst) ;
      input  rty;
      input  dat_sm;
    endclocking
-
-
-    // Modport for slave testbench
-   modport tb_slave(
-     clocking cbs,
-     clocking cbs_n,
-     task clockAlign()
-   );
 
    // Clocking block 0 positive edge
    clocking cbs @(posedge clk);
@@ -145,16 +142,21 @@ interface wshb_if #(parameter DATA_BYTES=4) (input logic clk, input logic rst) ;
      input  bte   ;
    endclocking
 
- // Clock edge alignment
-    task clockAlign();
-       wait(sync_posedge.triggered);
-    endtask
+   // Modport for slave testbench
+   modport tb_slave(
+     clocking cbs,
+     clocking cbs_n,
+     task clockAlign()
+   );
 
-    sequence sync_posedge;
-      @(posedge clk) 1;
-    endsequence
+   // Modport for master testbench
+    modport tb_master(
+      clocking cbm,
+      task clockAlign()
+    );
 
-// synthesis translate_on
+ `endif
+ //synthesis translate_on
 //////////////// End of TESTBENCH Masters and slaves modports /////////////
 
 endinterface
