@@ -13,7 +13,12 @@ module MEDIAN #(parameter WIDTH = 8)
     
     always_ff @(posedge CLK)
     begin
-        if(nRST)
+        if(!nRST)
+        begin
+            counter <= 0;
+            state   <= 0;
+        end
+        else
         begin
             if(counter == 4'd8)
                 counter <= 0;
@@ -33,11 +38,6 @@ module MEDIAN #(parameter WIDTH = 8)
             else if(counter == 4'd8)
                 state <= state + 1;
         
-        end
-        else //reset
-        begin
-            counter <= 0;
-            state   <= 0;
         end
     end
 
