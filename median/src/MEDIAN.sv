@@ -50,7 +50,6 @@ module MEDIAN #(parameter WIDTH = 8)
         begin
             if(counter == 4'd4)
             begin
-                BYP = 0;
                 DSO = 1;
             end
         end
@@ -60,7 +59,6 @@ module MEDIAN #(parameter WIDTH = 8)
             if(counter > 4'd4)
             begin
                 BYP = 1;
-                DSO = 0;
             end
         end
 
@@ -69,7 +67,6 @@ module MEDIAN #(parameter WIDTH = 8)
             if(counter > 4'd5)
             begin
                 BYP = 1;
-                DSO = 0;
             end
         end
 
@@ -78,7 +75,6 @@ module MEDIAN #(parameter WIDTH = 8)
             if(counter > 4'd6)
             begin
                 BYP = 1;
-                DSO = 0;
             end
         end
 
@@ -87,7 +83,6 @@ module MEDIAN #(parameter WIDTH = 8)
             if(counter > 4'd7)
             begin
                 BYP = 1;
-                DSO = 0;
             end
         end
 
@@ -96,7 +91,6 @@ module MEDIAN #(parameter WIDTH = 8)
             if(counter <= 4'd7)
             begin
                 BYP = 1;
-                DSO = 0;
             end
         end
     end
