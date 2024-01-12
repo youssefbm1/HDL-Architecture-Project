@@ -43,14 +43,11 @@ module MEDIAN #(parameter WIDTH = 8)
 
     always_comb
     begin
-        BYP = 0;
-        DSO = 0;
-
-        if(state == state6 && counter == 4'd4) DSO = 1;
-        if(state == state5 && counter > 4'd4)  BYP = 1;
-        if(state == state4 && counter > 4'd5)  BYP = 1;
-        if(state == state3 && counter > 4'd6)  BYP = 1;
-        if(state == state2 && counter > 4'd7)  BYP = 1;
-        if(state == state1 && counter <= 4'd7) BYP = 1;
+        DSO = (state == state6 && counter == 4'd4);
+        BYP = (state == state5 && counter > 4'd4)
+           || (state == state4 && counter > 4'd5)
+           || (state == state3 && counter > 4'd6)
+           || (state == state2 && counter > 4'd7)
+           || (state == state1 && counter <= 4'd7);
     end
 endmodule
