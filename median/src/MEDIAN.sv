@@ -45,53 +45,12 @@ module MEDIAN #(parameter WIDTH = 8)
     begin
         BYP = 0;
         DSO = 0;
-        
-        if(state == state6)
-        begin
-            if(counter == 4'd4)
-            begin
-                DSO = 1;
-            end
-        end
 
-        else if(state == state5)
-        begin
-            if(counter > 4'd4)
-            begin
-                BYP = 1;
-            end
-        end
-
-        else if(state == state4)
-        begin
-            if(counter > 4'd5)
-            begin
-                BYP = 1;
-            end
-        end
-
-        else if(state == state3)
-        begin
-            if(counter > 4'd6)
-            begin
-                BYP = 1;
-            end
-        end
-
-        else if(state == state2)
-        begin
-            if(counter > 4'd7)
-            begin
-                BYP = 1;
-            end
-        end
-
-        else if(state == state1)
-        begin
-            if(counter <= 4'd7)
-            begin
-                BYP = 1;
-            end
-        end
+        if(state == state6 && counter == 4'd4) DSO = 1;
+        if(state == state5 && counter > 4'd4)  BYP = 1;
+        if(state == state4 && counter > 4'd5)  BYP = 1;
+        if(state == state3 && counter > 4'd6)  BYP = 1;
+        if(state == state2 && counter > 4'd7)  BYP = 1;
+        if(state == state1 && counter <= 4'd7) BYP = 1;
     end
 endmodule
