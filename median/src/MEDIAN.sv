@@ -10,94 +10,46 @@ module MEDIAN #(parameter WIDTH = 8)
 
     MED #(.WIDTH(WIDTH))
     myMED(.DI(DI), .DSI(DSI), .CLK(CLK), .BYP(BYP), .DO(DO));
-    
+
     always_ff @(posedge CLK)
-    begin
-        if(nRST)
-        begin
-            if(counter == 4'd8)
-                counter <= 0;
-
-            else
-                counter <= counter + 1;
-
-            if(state == state0)
-            begin
-                state <= (DSI) ? state1 : state0;
-                counter <= 0;
-            end
-
-            else if(state == state6 && counter == 4'd4)
-                state <= (DSI) ? 1 : 0;
-            
-            else if(counter == 4'd8)
-                state <= state + 1;
-        
+      if(!nRST)
+        state   <= 0;
+      else
+      begin
+        if(state == state0) begin
+          if(DSI) state <=  state1;
         end
-        else //reset
-        begin
-            counter <= 0;
-            state   <= 0;
+        else if(state == state1) begin
+          if(!DSI) state <=  state2;
         end
-    end
+        else if(state == state6 && counter == 4'd4) begin
+          state <= (DSI) ? state1 : state0;
+        end
+        else if(counter == 4'd8) begin
+          state <= state + 1;
+        end
+      end
+
+    always_ff @(posedge CLK)
+      if(!nRST)
+        counter <= 0;
+      else
+      begin
+        if(state == state0 || state == state1)
+          counter <= 0;
+        else if(counter == 4'd8)
+          counter <= 0;
+        else
+          counter <= counter + 1;
+      end
 
     always_comb
     begin
-        BYP = 0;
-        DSO = 0;
-        
-        if(state == state6)
-        begin
-            if(counter == 4'd4)
-            begin
-                BYP = 0;
-                DSO = 1;
-            end
-        end
-
-        else if(state == state5)
-        begin
-            if(counter > 4'd4)
-            begin
-                BYP = 1;
-                DSO = 0;
-            end
-        end
-
-        else if(state == state4)
-        begin
-            if(counter > 4'd5)
-            begin
-                BYP = 1;
-                DSO = 0;
-            end
-        end
-
-        else if(state == state3)
-        begin
-            if(counter > 4'd6)
-            begin
-                BYP = 1;
-                DSO = 0;
-            end
-        end
-
-        else if(state == state2)
-        begin
-            if(counter > 4'd7)
-            begin
-                BYP = 1;
-                DSO = 0;
-            end
-        end
-
-        else if(state == state1)
-        begin
-            if(counter <= 4'd7)
-            begin
-                BYP = 1;
-                DSO = 0;
-            end
-        end
+        DSO = (state == state6 && counter == 4'd4);
+        BYP = (state == state5 && counter > 4'd4)
+           || (state == state4 && counter > 4'd5)
+           || (state == state3 && counter > 4'd6)
+           || (state == state2 && counter > 4'd7)
+           || DSI;
     end
 endmodule
