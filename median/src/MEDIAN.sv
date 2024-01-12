@@ -19,6 +19,9 @@ module MEDIAN #(parameter WIDTH = 8)
         if(state == state0) begin
           if(DSI) state <=  state1;
         end
+        else if(state == state1) begin
+          if(!DSI) state <=  state2;
+        end
         else if(state == state6 && counter == 4'd4) begin
           state <= (DSI) ? state1 : state0;
         end
@@ -32,7 +35,7 @@ module MEDIAN #(parameter WIDTH = 8)
         counter <= 0;
       else
       begin
-        if(state == state0)
+        if(state == state0 || state == state1)
           counter <= 0;
         else if(counter == 4'd8)
           counter <= 0;
@@ -47,6 +50,6 @@ module MEDIAN #(parameter WIDTH = 8)
            || (state == state4 && counter > 4'd5)
            || (state == state3 && counter > 4'd6)
            || (state == state2 && counter > 4'd7)
-           || (state == state1 && counter <= 4'd7);
+           || DSI;
     end
 endmodule
