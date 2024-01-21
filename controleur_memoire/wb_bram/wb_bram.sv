@@ -56,7 +56,7 @@ module wb_bram #(
         if (!(wb_s.cti[0] || wb_s.cti[1])) begin // cti = '000'
             for (int i = 0; i < 4; i++) begin
                 if (wb_s.sel[i]) begin
-                    memory[address_input][i] <= wb_s.dat_m[(8*i+7)-:8];
+                    memory[address_input][i] <= wb_s.dat_ms[(8*i+7)-:8];
                 end
             end
         end
