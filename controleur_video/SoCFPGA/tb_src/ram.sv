@@ -30,7 +30,7 @@ generate
 genvar i;
      for (i = 0; i < BE_WIDTH; i++) 
      begin:wstrb
-       always_ff @(posedge clk)
+       always @(posedge clk)
        begin
          if (we && Be[i])
              mem[addr][8*(i) +:8] <= wdata[8*(i) +:8]; // [msb_base_exp+:width]
