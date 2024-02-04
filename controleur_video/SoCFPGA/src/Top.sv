@@ -65,15 +65,6 @@ assign wshb_if_stream.rty =  1'b0 ;
 // pour l'instant
 // A SUPPRIMER PLUS TARD
 //=============================
-assign wshb_if_sdram.stb  = 1'b0;
-assign wshb_if_sdram.cyc  = 1'b0;
-assign wshb_if_sdram.we   = 1'b0;
-assign wshb_if_sdram.adr  = '0  ;
-assign wshb_if_sdram.dat_ms = '0 ;
-assign wshb_if_sdram.sel = '0 ;
-assign wshb_if_sdram.cti = '0 ;
-assign wshb_if_sdram.bte = '0 ;
-
 //--------------------------
 //------- Code Eleves ------
 //--------------------------
@@ -146,5 +137,6 @@ assign wshb_if_sdram.bte = '0 ;
       myVGA (
       .pixel_clk(pixel_clk),
       .pixel_rst(pixel_rst),
-      .video_ifm(video_ifm));
+      .video_ifm(video_ifm),
+      .wshb_ifm(wshb_if_sdram));
 endmodule

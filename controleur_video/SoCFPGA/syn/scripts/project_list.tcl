@@ -6,6 +6,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE $PROJECT_DIR/ips/interfaces/video
 set_global_assignment -name SYSTEMVERILOG_FILE $PROJECT_DIR/SoCFPGA/src/Vga.sv
 set_global_assignment -name QIP_FILE           $PROJECT_DIR/ips/sys_pll/sys_pll.qip
 set_global_assignment -name SYSTEMVERILOG_FILE $PROJECT_DIR/SoCFPGA/src/Top.sv
+set_global_assignment -name SYSTEMVERILOG_FILE $PROJECT_DIR/ips/fifos/async_fifo.sv
 
 
 
